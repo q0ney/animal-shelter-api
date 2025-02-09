@@ -1,7 +1,8 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateAnimalDto } from './create-animal.dto';
-import { IsString, IsInt, IsNotEmpty, IsBoolean } from 'class-validator';
+import { IsString, IsInt, IsNotEmpty, IsBoolean, IsEnum } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { AnimalType } from 'src/shared/enums/animal-type.enum';
 
 export class UpdateAnimalDto extends PartialType(CreateAnimalDto) {
     
@@ -10,10 +11,9 @@ export class UpdateAnimalDto extends PartialType(CreateAnimalDto) {
     @IsNotEmpty()
     name: string;
 
-    @ApiProperty({ example: "dog", description: "The type of the animal" })
-    @IsString()
-    @IsNotEmpty()
-    type: string;
+    @ApiProperty({ example: AnimalType.DOG, description: 'Type of the animal', enum: AnimalType })
+    @IsEnum(AnimalType)
+    type: AnimalType;
 
     @ApiProperty({ example: 3, description: "The age of the animal" })
     @IsInt()
