@@ -1,6 +1,5 @@
-import { IsString, IsInt, IsNotEmpty, IsEnum } from 'class-validator';
+import { IsString, IsInt, IsNotEmpty, IsEnum, IsUUID, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { AnimalType } from 'src/shared/enums/animal-type.enum';
 
 
 export class CreateAnimalDto {
@@ -10,12 +9,13 @@ export class CreateAnimalDto {
     @IsNotEmpty()
     name: string;
 
-    @ApiProperty({ example: AnimalType.DOG, description: 'Type of the animal', enum: AnimalType })
-    @IsEnum(AnimalType)
-    type: AnimalType;
-
     @ApiProperty({ example: 3, description: "The age of the animal" })
     @IsInt()
     @IsNotEmpty()
     age: number;
+
+    @ApiProperty({ example: '043f0f7c-8dc2-41d4-8657-fbfe7fff519b', description: 'ID of the animal breed', required: false })
+    @IsUUID()
+    @IsOptional()
+    breedId?: string;
 }
